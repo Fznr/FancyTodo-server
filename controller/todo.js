@@ -12,11 +12,18 @@ class TodoController {
         const {id} =req.params
         Todo.findByPk(id)
             .then(result => {
-                let output = []
-                output.push(result)
-                res.status(200).json({Todo:output})
+                if(result) {
+                    let output = []
+                    output.push(result)
+                    res.status(200).json({Todo:output})
+                } else {
+                    let output = {
+                        error : "Not Found"
+                    }
+                    res.status(404).json(output)
+                }
             })
-            .catch(err => res.status(404).json(err))
+            .catch(err => res.status(500).json(err))
     }
     static create(req, res) {
         const {title, description, status, due_date} =req.body
@@ -29,10 +36,16 @@ class TodoController {
             .then(result => {
                 res.status(201).json(result)
             })
-            .catch(err => res.status(500).json(err))
+            .catch(err => {
+                if(err.name == 'SequelizeValidationError' ) {
+                    res.status(400).json(err)
+                } else {
+                    res.status(500).json(err)
+                }
+            })
     }
     static update(req, res) {
-        let idEdit = 1
+        let idEdit = req.params.id
         const {title, description, status, due_date} =req.body
         Todo.update({
             title : title,
@@ -44,30 +57,55 @@ class TodoController {
             id: idEdit
             }
         })
-            .then(() => {
-                let output= [{
+            .then((result) => {
+                console.log(result)
+                if(result != 0) {
+                    let output= [{
                     title : title,
-                description: description,
-                status: status,
-                due_date: due_date
-                }]
-                res.status(200).json({Todo:output})
+                    description: description,
+                    status: status,
+                    due_date: due_date
+                    }]
+                    res.status(200).json({Todo:output})
+                } else {
+                    let output = {
+                        error : "Not Found"
+                    }
+                    res.status(404).json(output)
+                }
             })
-            .catch(err => res.status(500).json(err))
+            .catch(err => {
+                if(err.name == 'SequelizeValidationError' ) {
+                    res.status(400).json(err)
+                } else {
+                    res.status(500).json(err)
+                }
+            })
     }
     static delete(req, res) {
         const {id} = req.params
-        Todo.destroy({
-            where: {
-                id: id
-            }
-        })
+        Todo.findByPk(id)
             .then(result => {
-                res.status(200).json({result})
+                if(result) {
+                    Todo.destroy({
+                        where: {
+                            id: id
+                        }
+                    })
+                    .then(() => {
+                        let output = []
+                        output.push(result)
+                        res.status(200).json({Todo:output})
+                    })
+                } else {
+                    let output = {
+                        error : "Not Found"
+                    }
+                    res.status(404).json(output)
+                }   
             })
             .catch(err => res.status(500).json(err))
-    }
-    
+        }
 }
 
 module.exports = TodoController
