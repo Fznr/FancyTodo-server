@@ -31,7 +31,8 @@ class TodoController {
             title : title,
             description: description,
             status: status,
-            due_date: due_date
+            due_date: due_date,
+            UserId: req.currentUserId
         })
             .then(result => {
                 res.status(201).json(result)
