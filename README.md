@@ -3,7 +3,7 @@
 * **BaseURL**
 http://localhost:3000
 
-Return List of Todo
+**Return List of Todo**
 
 * **URL**
 
@@ -19,7 +19,7 @@ Return List of Todo
   * **Code:** 200 <br />
    ```javascript
    {
-    "id": 1,<br>
+    "id": 1,
     "title": "Task 1 D1",
     "description": "fancy todo",
     "status": true,
@@ -31,30 +31,18 @@ Return List of Todo
  
 * **Error Response:**
 
-  <_Most endpoints will have many ways they can fail. From unauthorized access, to wrongful parameters etc. All of those should be liste d here. It might seem repetitive, but it helps prevent assumptions from being made where they should be._>
-
-  * **Code:** 401 UNAUTHORIZED <br />
-    **Content:** `{ error : "Log in" }`
-
-  OR
-
-  * **Code:** 422 UNPROCESSABLE ENTRY <br />
-    **Content:** `{ error : "Email Invalid" }`
-
-* **Sample Call:**
-
-  <_Just a sample call to your endpoint in a runnable format ($.ajax call or a curl request) - this makes life easier and more predictable._> 
-
-* **Notes:**
-
-  <_This is where all uncertainties, commentary, discussion etc. can go. I recommend timestamping and identifying oneself when leaving comments here._> 
+  * **Code:** 500 INTERNAL SERVER ERROR <br />
+    **Content:** `{...}` <br /> <br />
 
 
-  Return List of Todo
+
+
+
+**Return List of Todo By Id**
 
 * **URL**
 
-  _/todos_
+  _/todos/:id_
 
 * **Method:**
 
@@ -68,37 +56,177 @@ Return List of Todo
  
    `id=[integer]`
 
-   **Optional:**
- 
-   `photo_id=[alphanumeric]`
-
-* **Data Params**
-
-  <_If making a post request, what should the body payload look like? URL Params rules apply here too._>
-
 * **Success Response:**
-  
-  <_What should the status code be on success and is there any returned data? This is useful when people need to to know what their callbacks should expect!_>
 
   * **Code:** 200 <br />
-    **Content:** `{ id : 12 }`
+```javascript
+   {
+    "id": 1,
+    "title": "Task 1 D1",
+    "description": "fancy todo",
+    "status": true,
+    "due_date": "2020-04-25T00:00:00.000Z",
+    "createdAt": "2020-03-30T10:10:10.711Z",
+    "updatedAt": "2020-03-30T23:21:22.838Z"
+   }
+```
  
 * **Error Response:**
 
-  <_Most endpoints will have many ways they can fail. From unauthorized access, to wrongful parameters etc. All of those should be liste d here. It might seem repetitive, but it helps prevent assumptions from being made where they should be._>
-
-  * **Code:** 401 UNAUTHORIZED <br />
-    **Content:** `{ error : "Log in" }`
+  * **Code:** 404 NOT FOUND <br />
+    **Content:** `{ error : "Not found" }`
 
   OR
 
-  * **Code:** 422 UNPROCESSABLE ENTRY <br />
-    **Content:** `{ error : "Email Invalid" }`
+  * **Code:** 500 INTERNAL SERVER ERROR <br />
+    **Content:** `{...}` <br /> <br />
 
-* **Sample Call:**
 
-  <_Just a sample call to your endpoint in a runnable format ($.ajax call or a curl request) - this makes life easier and more predictable._> 
 
-* **Notes:**
 
-  <_This is where all uncertainties, commentary, discussion etc. can go. I recommend timestamping and identifying oneself when leaving comments here._> 
+**Create Todo**
+
+* **URL**
+
+  _/todos/:id_
+
+* **Method:**
+
+  `POST`
+
+* **Data Params**
+```javascript
+    title=[integer],
+    description=[integer],
+    status=[boolean],
+    due_date=[date]
+```
+
+* **Success Response:**
+
+  * **Code:** 201 <br />
+```javascript
+   {
+    "id": 1,
+    "title": "Task 1 D1",
+    "description": "fancy todo",
+    "status": true,
+    "due_date": "2020-04-25T00:00:00.000Z",
+    "createdAt": "2020-03-30T10:10:10.711Z",
+    "updatedAt": "2020-03-30T23:21:22.838Z"
+   }
+```
+ 
+* **Error Response:**
+
+  * **Code:** 400 BAD REQUEST <br />
+    **Content:** `{ error : "SequelizeValidationError" }`
+
+  OR
+
+  * **Code:** 500 INTERNAL SERVER ERROR <br />
+    **Content:** `{...}` <br /> <br />
+
+
+
+
+**Delete Todo**
+
+* **URL**
+
+  _/todos/:id_
+
+* **Method:**
+
+  `DELETE`
+  
+*  **URL Params**
+
+   **Required:**
+ 
+   `id=[integer]`
+
+
+* **Success Response:**
+
+  * **Code:** 200 <br />
+```javascript
+   {
+    "id": 1,
+    "title": "Task 1 D1",
+    "description": "fancy todo",
+    "status": true,
+    "due_date": "2020-04-25T00:00:00.000Z",
+    "createdAt": "2020-03-30T10:10:10.711Z",
+    "updatedAt": "2020-03-30T23:21:22.838Z"
+   }
+```
+ 
+* **Error Response:**
+
+  * **Code:** 404 NOT FOUND <br />
+    **Content:** `{ error : "Not found" }`
+
+  OR
+
+  * **Code:** 500 INTERNAL SERVER ERROR <br />
+    **Content:** `{...}` <br /> <br />
+
+
+
+
+**Update Todo**
+
+* **URL**
+
+  _/todos/:id_
+
+* **Method:**
+
+  `DELETE`
+  
+*  **URL Params**
+
+   <_If URL params exist, specify them in accordance with name mentioned in URL section. Separate into optional and required. Document data constraints._> 
+
+   **Required:**
+ 
+   `id=[integer]`
+
+* **Data Params**
+```javascript
+    title=[integer],
+    description=[integer],
+    status=[boolean],
+    due_date=[date]
+```
+
+* **Success Response:**
+
+  * **Code:** 200 <br />
+```javascript
+   {
+    "id": 1,
+    "title": "Task 1 D1",
+    "description": "fancy todo",
+    "status": true,
+    "due_date": "2020-04-25T00:00:00.000Z",
+    "createdAt": "2020-03-30T10:10:10.711Z",
+    "updatedAt": "2020-03-30T23:21:22.838Z"
+   }
+```
+ 
+* **Error Response:**
+
+  * **Code:** 400 BAD REQUEST <br />
+    **Content:** `{ error : "SequelizeValidationError" }`
+
+  OR
+
+  * **Code:** 404 NOT FOUND <br />
+    **Content:** `{ error : "Not found" }`
+
+  OR
+
+  * **Code:** 500 INTERNAL SERVER ERROR <br />
+    **Content:** `{...}` <br /> <br />
