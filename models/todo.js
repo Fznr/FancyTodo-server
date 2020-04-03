@@ -13,10 +13,17 @@ Todo.init({
 }, {
   validate :{
     notnull() {
-      if(this.title == ''|| this.description == ''|| this.status == '') {
+      if(this.title == ''|| this.description == '') {
         throw new Error ('PLEASE FILL THE BLANK')
       } else if(this.due_date < new Date()){
         throw new Error ('Date can not fulfilled by before today date')
+      }
+    }
+  },
+  hooks: {
+    beforeValidate(todo, options) {
+      if(todo.status=='' || todo.status== null){
+        todo.status = false
       }
     }
   },
@@ -25,6 +32,7 @@ Todo.init({
 
   Todo.associate = function(models) {
     // associations can be defined here
+    Todo.belongsTo(models.User)
   };
   return Todo;
 };

@@ -9,12 +9,12 @@ module.exports = (sequelize, DataTypes) => {
   User.init({
     email: {
       type: DataTypes.STRING,
-      allownull: false,
+      allowNull: false,
       validate: {
-        // notNull: {
-        //   args: true,
-        //   msg: 'please fulfill email field'
-        // },
+        notNull: {
+          args: true,
+          msg: 'please fulfill email field'
+        },
         notEmpty: {
           args: true,
           msg: 'please fulfill email field'
@@ -25,7 +25,20 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    password: DataTypes.STRING
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          args: true,
+          msg: 'please insert password'
+        },
+        notEmpty: {
+          args: true,
+          msg: 'please insert password'
+        }
+      }
+    }
   }, {
     hooks: {
       beforeCreate(user, options) {
