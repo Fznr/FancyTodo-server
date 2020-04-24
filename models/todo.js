@@ -5,21 +5,34 @@ const {Model}= sequelize.Sequelize
 class Todo extends Model {}
 
 Todo.init({
-  title: DataTypes.STRING,
-  description: DataTypes.STRING,
+  title: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    notNull: {
+      args: true,
+      msg: 'Title cannot be null'
+    },
+    notEmpty: {
+      args: true,
+      msg: 'Pleaase insert title'
+    }
+  },
+  description: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    notNull: {
+      args: true,
+      msg: 'Description cannot be null'
+    },
+    notEmpty: {
+      args: true,
+      msg: 'Please insert description'
+    }
+  },
   status: DataTypes.BOOLEAN,
   due_date: DataTypes.DATE,
   UserId: DataTypes.INTEGER
 }, {
-  validate :{
-    notnull() {
-      if(this.title == ''|| this.description == '') {
-        throw new Error ('PLEASE FILL THE BLANK')
-      } else if(this.due_date < new Date()){
-        throw new Error ('Date can not fulfilled by before today date')
-      }
-    }
-  },
   hooks: {
     beforeValidate(todo, options) {
       if(todo.status=='' || todo.status== null){
